@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Componentes de Sistema de Reúso de Água</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #9b59b6;
+            --light-color: #ecf0f1;
+            --success-color: #27ae60;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .table-container {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #e1e1e1;
+            transition: background-color 0.2s;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        td {
+            padding: 15px;
+        }
+        
+        .componente {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .material {
+            color: var(--secondary-color);
+        }
+        
+        .dimensao {
+            color: var(--success-color);
+        }
+        
+        .notas {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 5px;
+        }
+        
+        .tag-reuso {
+            background-color: #e8f4fd;
+            color: var(--secondary-color);
+        }
+        
+        .tag-tratamento {
+            background-color: #e8f6f3;
+            color: var(--success-color);
+        }
+        
+        .tag-tubulacao {
+            background-color: #f4ecf7;
+            color: var(--accent-color);
+        }
+        
+        .tag-manutencao {
+            background-color: #fdebd0;
+            color: var(--warning-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 800px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Componentes de Sistema de Reúso de Água</h1>
+            <p class="subtitle">Especificações técnicas e informações de manutenção</p>
+        </header>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="exportToExcel()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5.884 6.68a.5.5 0 0 0-.772.63L8 11.154l2.888-3.844a.5.5 0 0 0-.772-.63L8 9.69l-2.116-2.01z"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                </svg>
+                Exportar para Excel
+            </button>
+            <button class="btn btn-success" onclick="exportToPDF()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M5.523 10.424c.14-.082.293-.162.459-.238a7.878 7.878 0 0 1-.45.606c-.28.337-.498.516-.635.572a.266.266 0 0 1-.035.012.282.282 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548zm2.455-1.647c-.119.025-.237.05-.356.078a21.148 21.148 0 0 0 .5-1.05 12.045 12.045 0 0 0 .51.858c-.217.032-.436.07-.654.114zm2.525.939a3.881 3.881 0 0 1-.435-.41c.228.005.434.022.612.054.317.057.466.147.518.209a.095.095 0 0 1 .026.064.436.436 0 0 1-.06.2.307.307 0 0 1-.094.124.107.107 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256zM8.278 4.97c-.04.244-.108.524-.2.829a4.86 4.86 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.517.517 0 0 1 .145-.04c.013.03.028.092.032.198.005.122-.007.277-.038.465z"/>
+                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4A1 1 0 0 1 14 4.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm5.5 1.5v2a1 1 0 0 0 1 1h2l-3-3zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.651 11.651 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.856.856 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.844.844 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.76 5.76 0 0 0-1.335-.05 10.954 10.954 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.238 1.238 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a19.697 19.697 0 0 1-1.062 2.227 7.662 7.662 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103z"/>
+                </svg>
+                Exportar para PDF
+            </button>
+            <button class="btn btn-danger" onclick="window.print()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+                    <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+                </svg>
+                Imprimir
+            </button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Componente</th>
+                        <th>Material / Tipo</th>
+                        <th>Dimensão / Capacidade (sugestão)</th>
+                        <th>Notas / Manutenção</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="componente">Reservatório de Reúso (lavabo)</td>
+                        <td class="material">Polietileno ou fibra de vidro (FRP)</td>
+                        <td class="dimensao">500 L (sugestão)</td>
+                        <td class="notas">Armazenar água tratada da pia do lavabo para descarga. Usar boia de nível e alarme de nível baixo.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Filtro Multimídia (areia + carvão)</td>
+                        <td class="material">Filtro compacto</td>
+                        <td class="dimensao">0,5–1 m³/h de capacidade</td>
+                        <td class="notas">Pré-tratamento físico + carvão ativado. Fazer retrolavagem e troca de mídia conforme fabricante.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Desinfecção</td>
+                        <td class="material">Cloro ou ozônio (opcional)</td>
+                        <td class="dimensao">Dose conforme tratamento</td>
+                        <td class="notas">Garante qualidade microbiológica da água de reúso (uso não potável). Monitorar cloro residual.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Bomba de recalque (reúso)</td>
+                        <td class="material">Submersa ou autoescorvante</td>
+                        <td class="dimensao">Vazão ≥ 0,15 × consumo diário</td>
+                        <td class="notas">Dimensionar conforme altura manométrica. Usar chave boia e pressostato.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Tubulação (água potável)</td>
+                        <td class="material">PVC / CPVC / PPR</td>
+                        <td class="dimensao">DN 15 (1/2”)</td>
+                        <td class="notas">Seguir NBR 5626. Identificar com etiqueta “ÁGUA POTÁVEL”.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Tubulação (reúso / não potável)</td>
+                        <td class="material">PVC CPVC (cor lilás)</td>
+                        <td class="dimensao">DN 25 (3/4”)</td>
+                        <td class="notas">Identificar com cor lilás e etiqueta “ÁGUA NÃO POTÁVEL”.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Caixa de Gordura</td>
+                        <td class="material">PP / PVC / alvenaria impermeabilizada</td>
+                        <td class="dimensao">20–25 L</td>
+                        <td class="notas">Instalar entre a pia da cozinha e a rede pública. Fazer limpeza mensal ou bimestral.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Triturador de Pia</td>
+                        <td class="material">Elétrico embutido</td>
+                        <td class="dimensao">300–600 W</td>
+                        <td class="notas">Instalar conforme fabricante. Conectar saída <strong>após</strong> a caixa de gordura.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Vaso Sanitário</td>
+                        <td class="material">Dual-flush</td>
+                        <td class="dimensao">3 / 6 L por descarga</td>
+                        <td class="notas">Usar água de reúso para a descarga, com ramal separado.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Torneiras com Aerador</td>
+                        <td class="material">Metálica cromada</td>
+                        <td class="dimensao">—</td>
+                        <td class="notas">Economia de até 40% no consumo. Instalar na cozinha e no lavabo.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Lavabo</td>
+                        <td class="material">Torneira com arejador + vaso dual-flush</td>
+                        <td class="dimensao">—</td>
+                        <td class="notas">Ponto de captação para reúso. Rede diferenciada para águas cinzas.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Coleta Seletiva</td>
+                        <td class="material">3 compartimentos</td>
+                        <td class="dimensao">Orgânico / Reciclável / Rejeito</td>
+                        <td class="notas">Instalar na cozinha. Pode incluir compartimento para óleo usado.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Óleo de Cozinha</td>
+                        <td class="material">Garrafa PET / recipiente fechado</td>
+                        <td class="dimensao">2–5 L rotativo</td>
+                        <td class="notas">Armazenar e destinar a ponto de coleta ou reciclagem.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Caixa de Inspeção</td>
+                        <td class="material">PVC</td>
+                        <td class="dimensao">DN 100 mm</td>
+                        <td class="notas">Instalar antes da ligação à rede pública. Facilita limpeza.</td>
+                    </tr>
+                    <tr>
+                        <td class="componente">Sensores e Alarmes</td>
+                        <td class="material">Sensor de vazamento / boia de nível</td>
+                        <td class="dimensao">—</td>
+                        <td class="notas">Alarme de nível baixo no reservatório de reúso e sensor de vazamento próximo à caixa de gordura.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <footer>
+            <p>Sistema de Reúso de Água - Especificações Técnicas</p>
+            <p>Última atualização: <span id="current-date"></span></p>
+        </footer>
+    </div>
+
+    <script>
+        // Atualizar data atual
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString('pt-BR');
+        
+        // Função para exportar para Excel
+        function exportToExcel() {
+            alert('Funcionalidade de exportação para Excel seria implementada aqui. Em um ambiente real, isso seria feito com uma biblioteca como SheetJS.');
+        }
+        
+        // Função para exportar para PDF
+        function exportToPDF() {
+            alert('Funcionalidade de exportação para PDF seria implementada aqui. Em um ambiente real, isso seria feito com uma biblioteca como jsPDF.');
+        }
+    </script>
+</body>
+</html>
