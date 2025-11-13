@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Componentes de Sistema de Reúso de Água</title>
+    <!-- Bibliotecas para exportação -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -151,35 +155,6 @@
             font-size: 0.9rem;
         }
         
-        .tag {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-right: 5px;
-        }
-        
-        .tag-reuso {
-            background-color: #e8f4fd;
-            color: var(--secondary-color);
-        }
-        
-        .tag-tratamento {
-            background-color: #e8f6f3;
-            color: var(--success-color);
-        }
-        
-        .tag-tubulacao {
-            background-color: #f4ecf7;
-            color: var(--accent-color);
-        }
-        
-        .tag-manutencao {
-            background-color: #fdebd0;
-            color: var(--warning-color);
-        }
-        
         footer {
             text-align: center;
             margin-top: 30px;
@@ -242,7 +217,7 @@
         </div>
         
         <div class="table-container">
-            <table>
+            <table id="data-table">
                 <thead>
                     <tr>
                         <th>Componente</th>
@@ -358,12 +333,93 @@
         
         // Função para exportar para Excel
         function exportToExcel() {
-            alert('Funcionalidade de exportação para Excel seria implementada aqui. Em um ambiente real, isso seria feito com uma biblioteca como SheetJS.');
+            try {
+                // Obter a tabela
+                const table = document.getElementById('data-table');
+                
+                // Criar uma planilha a partir da tabela
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.table_to_sheet(table);
+                
+                // Adicionar a planilha ao workbook
+                XLSX.utils.book_append_sheet(wb, ws, "Componentes de Reúso");
+                
+                // Gerar arquivo Excel e fazer download
+                XLSX.writeFile(wb, "Componentes_Sistema_Reuso_Agua.xlsx");
+                
+                console.log("Arquivo Excel exportado com sucesso!");
+            } catch (error) {
+                console.error("Erro ao exportar para Excel:", error);
+                alert("Erro ao exportar para Excel. Verifique o console para mais detalhes.");
+            }
         }
         
         // Função para exportar para PDF
         function exportToPDF() {
-            alert('Funcionalidade de exportação para PDF seria implementada aqui. Em um ambiente real, isso seria feito com uma biblioteca como jsPDF.');
+            try {
+                // Inicializar jsPDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+                
+                // Título do documento
+                doc.setFontSize(18);
+                doc.text("Componentes de Sistema de Reúso de Água", 14, 15);
+                doc.setFontSize(11);
+                doc.text("Especificações técnicas e informações de manutenção", 14, 22);
+                
+                // Obter dados da tabela
+                const table = document.getElementById('data-table');
+                const headers = [];
+                const rows = [];
+                
+                // Obter cabeçalhos
+                for (let i = 0; i < table.rows[0].cells.length; i++) {
+                    headers.push(table.rows[0].cells[i].innerText);
+                }
+                
+                // Obter dados das linhas
+                for (let i = 1; i < table.rows.length; i++) {
+                    const row = table.rows[i];
+                    const rowData = [];
+                    for (let j = 0; j < row.cells.length; j++) {
+                        rowData.push(row.cells[j].innerText);
+                    }
+                    rows.push(rowData);
+                }
+                
+                // Adicionar tabela ao PDF
+                doc.autoTable({
+                    head: [headers],
+                    body: rows,
+                    startY: 30,
+                    styles: { fontSize: 8, cellPadding: 2 },
+                    headStyles: { fillColor: [44, 62, 80] },
+                    columnStyles: {
+                        0: { cellWidth: 40 },
+                        1: { cellWidth: 40 },
+                        2: { cellWidth: 30 },
+                        3: { cellWidth: 80 }
+                    },
+                    margin: { top: 30 }
+                });
+                
+                // Adicionar data e número de páginas
+                const pageCount = doc.internal.getNumberOfPages();
+                for (let i = 1; i <= pageCount; i++) {
+                    doc.setPage(i);
+                    doc.setFontSize(10);
+                    doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 30, doc.internal.pageSize.height - 10);
+                    doc.text(`Gerado em: ${new Date().toLocaleDateString('pt-BR')}`, 14, doc.internal.pageSize.height - 10);
+                }
+                
+                // Salvar o PDF
+                doc.save("Componentes_Sistema_Reuso_Agua.pdf");
+                
+                console.log("Arquivo PDF exportado com sucesso!");
+            } catch (error) {
+                console.error("Erro ao exportar para PDF:", error);
+                alert("Erro ao exportar para PDF. Verifique o console para mais detalhes.");
+            }
         }
     </script>
 </body>
